@@ -17,6 +17,10 @@ DEFAULT_OUTPUT_PATH = "/output/entry.txt"
 
 
 def main() -> None:
+    # The gate allows one line of 1-280 characters: fail loudly here
+    # rather than writing an entry the scorer would mark invalid.
+    if "\n" in JOKE or "\r" in JOKE or not 1 <= len(JOKE) <= 280:
+        raise ValueError("JOKE must be one line of 1-280 characters")
     output_path = os.environ.get("OUTPUT_PATH", DEFAULT_OUTPUT_PATH)
     parent = os.path.dirname(output_path)
     if parent:
